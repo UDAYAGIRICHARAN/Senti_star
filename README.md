@@ -1,1 +1,1 @@
-# Majour-Project
+# Major-Project
