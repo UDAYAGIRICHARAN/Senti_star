@@ -1,0 +1,55 @@
+{% extends 'account/base.html' %}
+
+{% block content %}
+    {% comment %} <div class="text-center">
+
+       <h2>upload the file</h2>
+         <form action="{% url 'sentiment_text_upload' %}" method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+              <input type="file" name="file">
+              <input type="submit" value="upload">
+        </form>
+     
+ 
+
+        
+    </div> {% endcomment %}
+
+    
+
+
+
+
+
+    <div>
+        <h1 style="margin-top: 10px;  font-size: 45px;font-weight: bold;font -family: 'Times New Roman', Times, serif;"
+        class="text-center" 
+        >sentiment analysis</h1>
+        <h2  style="margin-top: 10px;  font-size: 30px;font-weight: bold;font -family: 'Times New Roman', Times, serif;"class="text-center" 
+        >enter the text</h2>
+
+        <form action="{% url 'sentiment_text' %}"  class="text-center" 
+
+        
+        
+        
+        
+        method="post">
+            {% csrf_token %}
+            <textarea name="text"  style="margin-top: 10px;  font-size: 20px;font-weight: bold;font -family: 'Times New Roman', Times, serif;"
+
+            
+            cols="30" rows="10"></textarea>
+            <input   style="margin-top: 10px;  font-size: 20px;font-weight: bold;font -family: 'Times New Roman', Times, serif;"
+
+
+            type="submit"   class="btn btn-primary" 
+             value="submit">
+        </form>
+    </div>
+    <div>
+        <h2>result</h2>
+        <p>{{result}}</p>
+    </div>
+
+{% endblock %}
