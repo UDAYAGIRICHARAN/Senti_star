@@ -1,0 +1,194 @@
+{% block content %}
+{% if user.is_authenticated %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{% block head_title %}{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
+    <style>
+        th,
+        td {
+            /* border: 1px solid #343a40; */
+            padding: 10px 20px;
+            text-align: left;
+        }
+        thead th {
+            background-color: #087f5b;
+            color: #fff;
+            width: 8%;
+        }
+        
+        tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        tbody tr:nth-child(odd) {
+            background-color: #e9ecef;
+        }
+    </style> 
+
+  {% if messages %}
+    <div class="p-2">
+      {% for message in messages %}
+        <div class="text-center border-bottom">{{message}}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <div class="p-3 mb-3 bg-dark">
+    <div class="container d-flex justify-content-between">
+        {% if user.is_authenticated %}
+        <div><a class="text-light" href="{% url 'account_email' %}">Change E-mail</a></div>
+        <div><a class="text-light" href="{% url 'home' %}">Home</a></div>
+        <div><a class="text-light" href="{% url 'account_logout' %}">Sign Out</a></div>
+        <div><a class="text-light" href="{% url 'socialaccount_connections' %}">Settings</a></div>
+        {% else %}
+        <div><a class="text-light" href="{% url 'account_login' %}">Sign In</a></div>
+        <div><a class="text-light" href="{% url 'account_signup' %}">Sign Up</a></div>
+        {% endif %}
+    </div>
+
+      <style>
+        table {
+          border-collapse: collapse;
+          width: 100%;
+        }
+        th, td {
+          border: 1px solid black;
+          padding: 8px;
+          text-align: left;
+        }
+        th {
+          background-color: #ddd;
+        }
+        td {
+          max-width: 200px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .popup {
+          display: none;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background-color: #fff;
+          border: 1px solid black;
+          padding: 16px;
+          z-index: 1;
+        }
+        .popup table {
+          border-collapse: collapse;
+          width: 100%;
+        }
+        .popup th, .popup td {
+          border: 1px solid black;
+          padding: 8px;
+          text-align: left;
+        }
+        .popup th {
+          background-color: #ddd;
+        }
+      </style>
+      
+
+      <table id="myTable">
+        <thead>
+          <tr>
+  
+                    <th> Service </th>
+                    {% comment %} <th> servicepaths</th> {% endcomment %}
+                    <th> Result </th>
+                    <th> responsedata</th>
+                    
+                </tr>
+                </thead>
+        
+                <tbody>
+                    {% for i in output.history %}
+                    <tr>
+                
+                        <td>{{i.service}}</td>
+                        {% comment %} <td>{{i.servicepaths}}</td> {% endcomment %}
+                        <td>{{i.serviceLocation}}</td>
+                        <td>{{i.responsedata}}</td>
+                       
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
+    
+    <script>
+        // Add click event listeners to each column
+        const table = document.getElementById("myTable");
+        const columns = table.getElementsByTagName("th");
+        for (let i = 0; i < columns.length; i++) {
+          columns[i].addEventListener("click", function() {
+            // Get the column index
+            const columnIndex = i;
+            
+            // Get the row data for the clicked column
+            const rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+            const rowData = [];
+            for (let j = 0; j < rows.length; j++) {
+              const cells = rows[j].getElementsByTagName("td");
+              rowData.push(cells[columnIndex].innerText);
+            }
+            
+            // Display the row data in the popup table
+            const popup = document.getElementById("myPopup");
+            const popupBody = popup.getElementsByTagName("tbody")[0];
+            popupBody.innerHTML = "";
+            for (let j = 0; j < rowData.length; j++) {
+              const row = document.createElement("tr");
+              const cell1 = document.createElement("td");
+              cell1.innerText = rows[j].getElementsByTagName("td")[0].innerText;
+              const cell2 = document.createElement("td");
+              cell2.innerText = rows[j].getElementsByTagName("td")[1].innerText;
+              const cell3 = document.createElement("td");
+              cell3.innerText = rows[j].getElementsByTagName("td")[2].innerText;
+              const cell4 = document.createElement("td");
+              cell4.innerText = rowData[j];
+              row.appendChild(cell1);
+              row.appendChild(cell2);
+              row.appendChild(cell3);
+              row.appendChild(cell4);
+              popupBody.appendChild(row);
+            }
+            
+            // Show the popup
+            popup.style.display = "block";
+          });
+        }
+        
+        // Add scroll event listeners to each column
+        const tbody = table.getElementsByTagName("tbody")[0];
+        const rows = tbody.getElementsByTagName("tr");
+        for (let i = 0; i < rows.length; i++) {
+          const cells = rows[i].getElementsByTagName("td");
+          for (let j = 0; j < cells.length; j++) {
+            cells[j].addEventListener("scroll", function() {
+              // Update the scroll position of all cells in the same column
+              const columnIndex = j;
+              for (let k = 0; k < rows.length; k++) {
+                const cell = rows[k].getElementsByTagName("td")[columnIndex];
+                cell.scrollTop = this.scrollTop;
+              }
+            });
+          }
+        }
+        
+      </script>
+</html>
+ {% else %}
+    <h1> Please login to access this page</h1>
+    <a href="{% url 'login' %}">Login</a>
+
+{% endif %} 
+{% endblock %}

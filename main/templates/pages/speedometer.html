@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Credit Score Speedometer</title>
+  <style>
+    /* CSS for the speedometer */
+    .speedometer {
+      width: 300px;
+      height: 300px;
+      border: 1px solid #ccc;
+      border-radius: 50%;
+      position: relative;
+      margin: 0 auto;
+    }
+    
+    /*CSS for the needle */
+    .speedometer .needle {
+      width: 0;
+      height: 0;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-bottom: 40px solid red;
+      position: absolute;
+      bottom: 0;
+      left: 140px;
+      transform-origin: bottom center;
+      transform: rotate(0deg);
+      transition: transform 0.5s ease-in-out;
+    }
+    
+    /* CSS for the credit score range */
+    .speedometer .range {
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
+    /* Color for the credit score range */
+    .speedometer .range.green {
+      background: green;
+    }
+    .speedometer .range.yellow {
+      background: yellow;
+    }
+    .speedometer .range.red {
+      background: red;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="speedometer">
+    <div class="range green"></div>
+    <div class="range yellow"></div>
+    <div class="range red"></div>
+    <div class="needle"></div>
+  </div>
+  <script>
+    // JavaScript to rotate the needle based on credit score
+    var score = 0;
+    var needle = document.querySelector('.needle');
+    var rangeGreen = document.querySelector('.range.green');
+    var rangeYellow = document.querySelector('.range.yellow');
+    var rangeRed = document.querySelector('.range.red');
+    // Function to rotate the needle
+    function setScore(newScore) {
+        if(newScore>=0 && newScore<=100){
+            score = newScore;
+            var angle = (3.6 * score);
+            needle.style.transform = 'rotate(' + angle + 'deg)';
+            if(score>=0 && score<=50){
+                rangeGreen.style.display = 'none';
+                rangeYellow.style.display = 'none';
+                rangeRed.style.display = 'block';
+            }
+            else if(score>50 && score<=75){
+                rangeGreen.style.display = 'none';
+                rangeYellow.style.display = 'block';
+                rangeRed.style.display = 'none';
+            }
+            else if(score>75 && score<=100){
+                rangeGreen.style.display = 'block';
+                rangeYellow.style.display = 'none';
+                rangeRed.style.display = 'none';
+            }
+        }
+    }
+    // Function to set the score
+    function setScore() {
+      var score = document.getElementById('score').value;
+      setScore(score);
+    }
+    </script>
+    <input type="text" id="score" placeholder="Enter your credit score">
+    <button onclick="setScore()">Set Score</button>
+</body>
+</html>

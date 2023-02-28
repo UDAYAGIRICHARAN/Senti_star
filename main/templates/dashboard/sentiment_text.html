@@ -1,0 +1,205 @@
+{% extends 'account/base.html' %}
+
+{% block content %}
+
+
+
+
+{% if user.is_authenticated %}
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+   
+  <style>
+    /* CSS styles */
+    #app {
+      font-family: Arial, sans-serif;
+    }
+    h1 {
+        color: #000080; /* Dark blue color */
+        text-align: center;
+     
+        background-color: #000008;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+        font-size: 30px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        margin-top: 10px;
+        text-align: center;
+        width: 30%;
+        animation: zoomOut 2s;
+        animation-iteration-count: 2; /* Change this to 2 */
+   
+
+      }
+
+    form {
+      margin: 20px 0;
+    }
+
+    label {
+      font-weight: bold;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    textarea {
+        display: block;
+      width: 90%;
+      height: 300px;
+
+      padding: 12px;
+      border-radius: 10px;
+      border: 2px solid #ccc;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+      margin-left: auto;
+      margin-right: auto;
+
+      
+    }
+
+    #submit-btn {
+    
+      background-color: #4CAF50;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+
+    }
+
+    #submit-btn:hover {
+    
+      
+        background-color: #45a049;
+
+
+        
+    }
+    #submit{
+        background-color: #339FD9;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+
+    }
+    #typing123 {
+        color: #00001a;
+      
+        /* light Black color */
+        text-align: center;
+        font-size: 10px;
+        overflow: hidden;
+        white-space: nowrap;
+        position: relative;
+      }
+
+    #result {
+      margin-top: 20px;
+      padding: 12px;
+      border-radius: 4px;
+      background-color: #f2f2f2;
+    }
+    h3 {
+      color: #00001a;
+      /* light Black color */
+      text-align: center;
+      font-size: 30px;
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+    }
+  </style>
+  <h1> Senti Text</h1>
+  <h3 id="typing"></h3>
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+  <script>
+    var typed = new Typed("#typing", {
+      strings: ["Type or paste text here", "Click on submit button", "Get the result"],
+      typeSpeed: 30
+    });
+  </script>
+ 
+</head>
+<body>
+
+
+ 
+  <div id="app">
+
+    <form  action="{% url 'sentiment_text' %}"  class="text-center" method="post">
+        {% csrf_token %}
+   
+      <textarea id="text-input" name="text-input" placeholder="Enter text here or paste text here"
+
+      ></textarea>
+      <br>
+   
+      <input  type="submit" value="submit" id="submit" class="btn btn-primary"></input>
+    </form>
+    <div id="result"></div>
+    <div id="DetectLanguage"></div>
+
+  </div>
+
+  <script>
+    // JavaScript code
+    const input = document.querySelector("#text-input");
+    const submitBtn = document.querySelector("#submit-btn");
+    const result = document.querySelector("#result");
+
+    submitBtn.addEventListener("click", (event) => {
+      event.preventDefault();
+
+      // Perform sentiment analysis on the input text
+      const sentiment = getSentiment(input.value);
+
+      // Update the result div with the sentiment
+      result.textContent = sentiment;
+    });
+
+    function getSentiment(text) {
+      // Placeholder function to simulate sentiment analysis
+      return "Positive";
+    }
+    const DetectLanguage = document.querySelector("#DetectLanguage");
+    DetectLanguage.addEventListener("click", (event) => {
+      event.preventDefault();
+
+      // Perform sentiment analysis on the input text
+      const sentiment = getSentiment(input.value);
+
+      // Update the result div with the sentiment
+      result.textContent = sentiment;
+    });
+    
+  </script>
+</body>
+</html>
+{% else %}
+    <h1> Please login to access this page</h1>
+    <a href="{% url 'login' %}">Login</a>
+
+{% endif %}
+{% endblock %}

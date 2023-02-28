@@ -1,0 +1,237 @@
+{% extends 'account/base.html' %}
+
+{% block content %}
+
+
+
+
+{% if user.is_authenticated %}
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+   
+  <style>
+    /* CSS styles */
+    #app {
+      font-family: Arial, sans-serif;
+    }
+    h1 {
+        color: #000080; /* Dark blue color */
+        text-align: center;
+     
+        background-color: #000008;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+        font-size: 30px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        margin-top: 10px;
+        text-align: center;
+        width: 30%;
+        animation: zoomOut 2s;
+        animation-iteration-count: 2; /* Change this to 2 */
+   
+
+      }
+
+    form {
+      margin: 20px 0;
+    }
+
+    label {
+      font-weight: bold;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    textarea {
+        display: block;
+      width: 90%;
+      height: 300px;
+
+      padding: 12px;
+      border-radius: 10px;
+      border: 2px solid #ccc;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+      margin-left: auto;
+      margin-right: auto;
+
+      
+    }
+
+    #submit-btn {
+    
+      background-color: #4CAF50;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+
+    }
+
+    #submit-btn:hover {
+    
+      
+        background-color: #45a049;
+
+
+        
+    }
+    #submit{
+        background-color: #339FD9;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+
+    }
+    #typing123 {
+        color: #00001a;
+      
+        /* light Black color */
+        text-align: center;
+        font-size: 10px;
+        overflow: hidden;
+        white-space: nowrap;
+        position: relative;
+      }
+
+    #result {
+      margin-top: 20px;
+      padding: 12px;
+      border-radius: 4px;
+      background-color: #f2f2f2;
+    }
+    h3{
+        color: #00001a;
+      
+        /* light Black color */
+        text-align: center;
+        font-size: 20px;
+        overflow: hidden;
+        white-space: nowrap;
+        position: relative;
+      }
+      #DetectLanguage{
+        background-color: #339FD9;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+
+    }
+  </style>
+  <h1> Sentiment Trans</h1>
+  <h3 id="typing"></h3>
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+  <script>
+    var typed = new Typed("#typing", {
+      strings: ["Type or paste text here in any language and click on submit to get the sentiment of the text", "Click on Detect Language to detect the language of the text", "Click on Translate to translate the text into English"],
+      typeSpeed: 30
+    });
+  </script>
+</h3>
+
+</head>
+<body>
+    
+  <h3 id="typing"></h3>
+ 
+  <div id="app">
+
+    <form  action="{% url 'senti_trans' %}"  class="text-center" method="post">
+        {% csrf_token %}
+   
+      <textarea id="text-input" name="text-input" placeholder="Enter text here or paste text here"
+
+      ></textarea>
+      <br>
+   
+      <input  type="submit" value="submit" id="submit" class="btn btn-primary"></input>
+      <br>
+  
+    </form>
+    <br>
+    <input type="submit" value="Detect Language" id="DetectLanguage" class="btn btn-primary"></input>
+    <input type="submit" value="Translate" id="Translate" class="btn btn-primary"></input>
+    <br>
+  
+  </div>
+
+  <script>
+    // JavaScript code
+    const input = document.querySelector("#text-input");
+    const submitBtn = document.querySelector("#submit-btn");
+    const result = document.querySelector("#result");
+
+ 
+    
+    const DetectLanguage = document.querySelector("#DetectLanguage");
+    const Translate = document.querySelector("#Translate");
+    // send the input text to the server when the DetectLanguage button is clicked
+    DetectLanguage.addEventListener("click", () => {
+      const text = input.value;
+      fetch("/detect_language", {
+        method: "POST",
+        // add csrf_token to the headers
+        headers: {
+          "Content-Type": "application/json"
+          "X-CSRFToken": "{{ csrf_token }}"
+
+        },
+        body: JSON.stringify({ text })
+      })
+        .then(res => res.json())
+        .then(data => {
+          result.innerHTML = data.result;
+        });
+    });
+    Translate.addEventListener("click", () => {
+      const text = input.value;
+      fetch("/translate", {
+        method: "POST",
+        // add csrf_token to the headers
+        headers: {
+          "Content-Type": "application/json"
+          "X-CSRFToken": "{{ csrf_token }}"
+
+        },
+        body: JSON.stringify({ text })
+      })
+        .then(res => res.json())
+        .then(data => {
+          result.innerHTML = data.result;
+        });
+    });
+  </script>
+</body>
+</html>
+{% else %}
+    <h1> Please login to access this page</h1>
+    <a href="{% url 'login' %}">Login</a>
+
+{% endif %}
+{% endblock %}

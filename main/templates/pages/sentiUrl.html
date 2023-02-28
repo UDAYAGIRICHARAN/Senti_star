@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+{% extends 'account/base.html' %}
+{% load static %}
+{% block title %}Dashboard{% endblock %}
+<html>
+{% block content %}
+{% if user.is_authenticated %}
+
+
+<head>
+    <title>Senti Url Theme</title>
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+    <style>
+      body {
+        background-color: #87CEEB; /* Light blue color */
+      }
+      h1 {
+        color: #000080; /* Dark blue color */
+        text-align: center;
+        animation: zoomOut 2s;
+        animation-iteration-count: 2; /* Change this to 2 */
+      }
+      h3 {
+        color: #00001a;
+        /* light Black color */
+        text-align: center;
+        font-size: 10px;
+        overflow: hidden;
+        white-space: nowrap;
+        position: relative;
+      }
+      @keyframes zoomOut {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(0.5);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+    </style>
+
+    <h1>Senti Url </h1>
+
+    <h3 id="typing"></h3>
+    <script>
+      var typed = new Typed("#typing", {
+        strings: ["paste the webiste url or  creditials, Senti Url will parse the website and emails, scrape the comments and mails, give the sentiment."],
+        typeSpeed: 50
+      });
+    </script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* CSS for the upload form */
+        .drop-zone {
+            width: 100%;
+            min-height: 200px;
+            border: 2px dashed #ccc;
+            border-radius: 5px;
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap:wrap;
+        }
+
+        .drop-zone .drop-zone-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .drop-zone .drop-zone-content i {
+            font-size: 60px;
+            color: #ccc;
+            margin-bottom: 10px;
+        }
+
+        .drop-zone .drop-zone-content p {
+            font-size: 18px;
+            color: #ccc;
+            margin: 0;
+        }
+
+        #preview {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        #preview img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            margin: 10px;
+            border-radius: 10px;
+            font: 10px;
+            font-weight: bold;
+            background-color: #000000;
+            color: #ffffff;
+            text-align: center;
+            padding: 10px;
+        }
+        #files{
+            display: none;
+        }
+        #upload{
+            margin-top: 10px;
+        }
+    </style>
+
+
+</head>
+  <head>
+    <style>
+      .icon {
+        width: 300px;
+        height: 300px;
+        display: inline-block;
+        margin: 20px;
+
+      }
+
+      .popup {
+        display: none;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 20px;
+        border: 1px solid black;
+        border-radius: 10px;
+        box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);
+        width: 500px;
+        height: 300px;
+
+
+
+
+      }
+      .popup1{
+        display: none;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 20px;
+        border: 1px solid black;
+        border-radius: 10px;
+        box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);
+        width: 500px;
+        height: 300px;
+
+      }
+    </style>
+  </head>
+  <body>
+    <img class="icon" src="{% static 'images/youtube.png' %}"  
+     onclick="openPopup('twitter')">
+
+    <img class="icon" src="{% static 'images/gmail.png' %}"
+    onclick="openPopupForEmail('gmail')">
+    <img class="icon" src="{% static 'images/website1.jpg' %}"
+    onclick="openPopup('instagram')">
+
+    <div class="popup" id="twitterPopup">
+       {% comment %} on submit action do post request to the url and pass the url as a parameter   mention the service  {% endcomment %}
+      <form action="{% url 'senti_url_submit' %}" method="POST">
+        {% csrf_token %}
+        <h3>Enter the url</h3>
+     
+        <input type="text" placeholder="Enter URL"  id="url" name="url" 
+         style="width: 400px; height: 50px;, font-size: 20px;" required> 
+ 
+        <input type="hidden" id="icon" name="icon" value="twitter">
+      
+        <br>
+        <br>
+        <button type="submit" class="btn btn-primary" 
+        >Submit</button>
+
+    </div>
+    <div class="popup1" id="emailPopup">
+      <form action="{% url 'senti_url_submit' %}" method="POST">
+        {% csrf_token %}
+        <h3>Enter the email and password</h3>
+        <input type="text" placeholder="Enter Email"  id="email" name="email" required>
+        <input type="hidden" id="icon" name="icon" value="email">
+        <br>
+
+        <br>
+        <input type="text" placeholder="Enter Password"  id="password" name="password" required>
+        <br>
+        <br>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    <script>
+      var icon, url, service;
+      function openPopup(icon) {
+        if (icon === 'twitter') {
+          document.getElementById('twitterPopup').style.display = 'block';
+          document.getElementById('twitterUrl').focus();
+          document.getElementById('icon').value = 'twitter';
+          document.getElementById('youtubePopup').style.display = 'none';
+          document.getElementById('gmailPopup').style.display = 'none';
+          document.getElementById('instagramPopup').style.display = 'none';
+          service = 'twitter';
+
+        
+
+      
+
+        } else if(icon=="youtube"){
+          document.getElementById('youtubePopup').style.display = 'block';
+          document.getElementById('youtubeUrl').focus();
+          document.getElementById('icon').value = 'youtube';
+          document.getElementById('twitterPopup').style.display = 'none';
+          document.getElementById('gmailPopup').style.display = 'none';
+          document.getElementById('instagramPopup').style.display = 'none';
+          service = 'youtube';
+        }
+        
+        else {
+          document.getElementById('instagramPopup').style.display = 'block';
+          document.getElementById('instagramUrl').focus();
+          document.getElementById('icon').value = 'instagram';
+          document.getElementById('twitterPopup').style.display = 'none';
+          document.getElementById('youtubePopup').style.display = 'none';
+          document.getElementById('gmailPopup').style.display = 'none';
+        }
+       
+        }
+
+      
+      function openPopupForEmail() {
+        document.getElementById('emailPopup').style.display = 'block';
+        document.getElementById('email').focus();
+        document.getElementById('icon').value = 'gmail';
+        service='gmail';
+        document.getElementById('twitterPopup').style.display = 'none';
+        document.getElementById('youtubePopup').style.display = 'none';
+        document.getElementById('instagramPopup').style.display = 'none';
+
+      
+      }
+
+      function submitForm() {
+              //mention the service
+              var service = document.getElementById('icon').value;
+              if (service === 'twitter') {
+                url = document.getElementById('twitterUrl').value;
+              } else if (service === 'youtube') {
+                url = document.getElementById('youtubeUrl').value;
+              } else if (service === 'gmail') {
+                url = document.getElementById('gmailUrl').value;
+              } else if (service === 'instagram') {
+                url = document.getElementById('instagramUrl').value;
+              }
+              var data = {
+                'url': url,
+                'service': service
+              };
+              var xhr = new XMLHttpRequest();
+              xhr.open("POST", "{% url 'senti_url_submit' %}", true);
+              xhr.setRequestHeader('Content-Type', 'application/json');
+              xhr.send(JSON.stringify(data));
+              xhr.onload = function() {
+                if (xhr.status === 200) {
+                  alert('Request succeeded.  Returned status of ' + xhr.status)
+                } else {
+                  alert('Request failed.  Returned status of ' + xhr.status);
+                }
+              };
+      }
+    </script>
+  </body>
+</html>
+{% else %}
+    <h1> Please login to access this page</h1>
+    <a href="{% url 'login' %}">Login</a>
+
+{% endif %}
+{% endblock %}
+

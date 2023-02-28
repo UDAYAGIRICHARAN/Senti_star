@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+{% extends 'account/base.html' %}
+{% load static %}
+{% block title %}Dashboard{% endblock %}
+<html>
+{% block content %}
+{% if user.is_authenticated %}
+
+
+<head>
+    <title>Senti Files Theme</title>
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+    <style>
+      body {
+        background-color: #87CEEB; /* Light blue color */
+      }
+      h1 {
+        color: #000080; /* Dark blue color */
+        text-align: center;
+        animation: zoomOut 2s;
+        animation-iteration-count: 2; /* Change this to 2 */
+      }
+      h3 {
+        color: #00001a;
+        /* light Black color */
+        text-align: center;
+        font-size: 10px;
+        overflow: hidden;
+        white-space: nowrap;
+        position: relative;
+      }
+      @keyframes zoomOut {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(0.5);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+    </style>
+
+    <h1>Senti   files </h1>
+
+    <h3 id="typing"></h3>
+    <script>
+      var typed = new Typed("#typing", {
+        strings: ["Upload your files to get the sentiment analysis , You can upload multiple files at a time."],
+        typeSpeed: 50
+      });
+    </script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* CSS for the upload form */
+        .drop-zone {
+            width: 100%;
+            min-height: 200px;
+            border: 2px dashed #ccc;
+            border-radius: 5px;
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap:wrap;
+        }
+
+        .drop-zone .drop-zone-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .drop-zone .drop-zone-content i {
+            font-size: 60px;
+            color: #ccc;
+            margin-bottom: 10px;
+        }
+
+        .drop-zone .drop-zone-content p {
+            font-size: 18px;
+            color: #ccc;
+            margin: 0;
+        }
+
+        #preview {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        #preview img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            margin: 10px;
+            border-radius: 10px;
+            font: 10px;
+            font-weight: bold;
+            background-color: #000000;
+            color: #ffffff;
+            text-align: center;
+            padding: 10px;
+        }
+        #files{
+            display: none;
+        }
+        #upload{
+            margin-top: 10px;
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <div class="container">
+        <form method="post" enctype="multipart/form-data" id="files-upload-form">
+            {% csrf_token %}
+            <div class="drop-zone" id="drop-zone">
+                <div class="drop-zone-content">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Drop files here or click to upload</p>
+                </div>
+                <input type="file" id="files" name="files" multiple>
+            </div>
+            <div id="preview"></div>
+          
+
+            <div class="form-group">
+                <input type="submit" value="Upload" id="upload" class="btn btn-primary">
+            </div>
+        </form>
+    </div>
+    <script>
+        // JavaScript for the upload form
+        var dropZone = document.getElementById("drop-zone");
+        var files = document.getElementById("files");
+
+        dropZone.addEventListener("click", function() {
+            files.click();
+        });
+
+        dropZone.addEventListener("dragover", function(e) {
+            e.preventDefault();
+            this.className = "drop-zone dragover";
+        });
+
+        dropZone.addEventListener("dragleave", function() {
+            this.className = "drop-zone";
+        });
+
+        files.addEventListener("change", function() {
+            preview(this.files);
+        });
+
+        dropZone.addEventListener("drop", function(e) {
+            e.preventDefault();
+            this.className = "drop-zone";
+            preview(e.dataTransfer.files);
+        });
+
+        function preview(files) {
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var filesType = /files.*/;
+         
+                //show defualt image for files
+                var img = document.createElement("img");
+                //image is pdf file show pdf image
+                if (file.name.split('.').pop() == "pdf") {
+                    img.src = "{% static 'images/pdf.png' %}";
+                }
+                //image is doc file show doc image
+                else if (file.name.split('.').pop() == "doc" || file.name.split('.').pop() == "docx") {
+                    img.src = "{% static 'images/doc.png' %}";
+                }
+                //image is ppt file show ppt image
+                else if (file.name.split('.').pop() == "ppt" || file.name.split('.').pop() == "pptx") {
+                    img.src = "{% static 'images/ppt.png' %}";
+                }
+                //image is xls file show xls image
+                else if (file.name.split('.').pop() == "xls" || file.name.split('.').pop() == "xlsx") {
+                    img.src = "{% static 'images/xls.png' %}";
+                }
+                //image is txt file show txt image
+                else if (file.name.split('.').pop() == "txt") {
+                    img.src = "{% static 'images/txt.png' %}";
+                }
+                //image is zip file show zip image
+                else{
+                    img.src = "{% static 'images/files.png' %}";
+                }
+
+          
+                img.className = file.name;
+                //show the image of the files with delete button on the top right corner
+                var div = document.createElement("div");
+                div.className = file.name;
+                div.style.position = "relative";
+          
+                div.style.padding = "1px";
+                div.appendChild(img);
+                document.getElementById("preview").appendChild(div);
+
+                    //delete button
+                    var span = document.createElement("span");
+                    span.innerHTML = "X";
+                    
+                    span.className = file.name; 
+                    span.style.position = "absolute";
+                    span.style.top = "0";
+                    span.style.right = "0";
+                    span.style.padding = "5px 10px";
+                    span.style.backgroundColor = "#000000";
+                    span.style.color = "#ffffff";
+                    span.style.cursor = "pointer";
+                    span.style.borderRadius = "0 0 0 10px";
+                    span.style.fontWeight = "bold";
+                    span.style.fontSize = "20px";
+                    span.style.lineHeight = "20px";
+                    span.style.textAlign = "center";
+                    span.style.verticalAlign = "middle";
+                    span.style.display = "inline-block";
+                    span.style.margin = "0";
+                    span.style.border = "0";
+                    span.style.outline = "0";
+                    span.style.textDecoration = "none";
+                    span.style.opacity = "0.5";
+                    span.style.transition = "all 0.3s ease";
+                    span.addEventListener("click", function() {
+                        var filesName = document.getElementsByClassName(this.className);
+                        for (var j = 0; j < filesName.length; j++) {
+                            filesName[j].style.animation = "zoomOut 1s";
+                        }
+                        setTimeout(function() {
+                            var filesName = document.getElementsByClassName(this.className);
+                            for (var j = 0; j < filesName.length; j++) {
+                                filesName[j].remove();
+                            }
+                        }.bind(this), 1000);
+                    });
+                    div.appendChild(span);
+                //show the name of the files
+
+                var p = document.createElement("p");
+                p.innerHTML = file.name;
+                p.className = file.name;
+                p.style.position = "absolute";
+                p.style.bottom = "0";
+                p.style.left = "0";
+                p.style.width = "100%";
+                p.style.padding = "5px 10px";
+                p.style.backgroundColor = "#000000";
+                p.style.color = "#ffffff";
+                p.style.cursor = "pointer";
+                p.style.borderRadius = "0 0 10px 0";
+                p.style.fontWeight = "bold";
+                p.style.fontSize = "20px";
+                p.style.lineHeight = "20px";
+                p.style.textAlign = "center";
+                p.style.verticalAlign = "middle";
+                p.style.display = "inline-block";
+                p.style.margin = "0";
+                p.style.border = "0";
+                p.style.outline = "0";
+                p.style.textDecoration = "none";
+                p.style.opacity = "0.5";
+                p.style.transition = "all 0.3s ease";
+
+
+                div.appendChild(p);
+
+
+
+
+               // show the files during the preview when user click image of the files
+                img.addEventListener("click", function() {
+                    var filesName = document.getElementsByClassName(this.className);
+                    for (var j = 0; j < filesName.length; j++) {
+                        audioName[j].style.animation = "zoomOut 1s";
+                    }
+                    setTimeout(function() {
+                        var audioName = document.getElementsByClassName(this.className);
+                        for (var j = 0; j < filesName.length; j++) {
+                            filesName[j].remove();
+                        }
+                    }.bind(this), 1000);
+                });
+                //show the files player play option when user click the name of the files
+                //files player
+
+
+                       
+             
+               
+
+                
+
+
+            
+            }
+        }
+     
+        function hideLoading() {
+            var loading = document.getElementById("loading");
+            loading.style.display = "none";
+        }
+        function showLoading() {
+            var loading = document.getElementById("loading");
+            loading.style.display = "block";
+
+
+        }
+
+        var form = document.getElementById("files-upload-form");
+        form.addEventListener("submit", function(e) {
+            e.preventDefault();
+            //loading animation
+            showLoading();
+
+           
+            var formData = new FormData(form);
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "files_upload", true);
+            console.log(xhr);
+        
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log("success");
+                    var json=JSON.parse(xhr.responseText)
+                    var json1=JSON.parse(xhr.response)
+                    console.log(json.responseId)
+                    console.log(json1)
+                  
+                    // Handle the response from the server
+                    var response = json.responseId
+                      
+                  
+                        // send the post request to the result page to show the result and request.body=response
+                        response = JSON.stringify(response)
+          
+                        console.log(response);
+                       window.location.href = "output?responseId=" + response;
+
+                    
+                    
+                }
+            };
+            xhr.send(formData);
+        });
+    
+      
+    
+    </script>
+    <div id=loading style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(0,0,0,0.5);z-index:9999;">
+        <img src="{% static 'images/loading1.gif' %}" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:400px;height:400px;">
+</body>
+
+</html>
+{% else %}
+    <h1> Please login to access this page</h1>
+    <a href="{% url 'login' %}">Login</a>
+
+{% endif %}
+{% endblock %}

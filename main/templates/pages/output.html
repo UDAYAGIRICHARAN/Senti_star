@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block head_title %}{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --tlt-br-cnt: 50;
+        --i: 0;
+      }
+
+      .kar {
+        width: 200px;
+        height:200px;
+        border-radius: 10%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+      }
+      .kar i {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        transform: rotate(calc(45deg + calc(calc(360deg / var(--tlt-br-cnt)) * var(--i))));
+      }
+      .kar i::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        background:red;;
+        width: 5px;
+        height: 20px;
+        border-radius: 999rem;
+        transform: rotate(-45deg);
+        transform-origin: top;
+        opacity: 0;
+        animation: barCreationAnimation 100ms ease forwards;
+        animation-delay: calc(var(--i) * 15ms);
+      }
+      .kar .selected-demo::after {
+        background: hsl(130, 100%, 50%);
+        box-shadow: 0 0 1px hsl(130, 100%, 50%),
+                    0 0 3px hsl(130, 100%, 30%),
+                    0 0 4px hsl(130, 100%, 10%);
+      }
+      
+      .percent-text {
+        font-size: 3rem;
+        animation: barCreationAnimation 500ms ease forwards;
+        animation-delay: calc(var(--tlt-br-cnt) * 15ms / 2);
+      }
+      .text-demo{
+        color: hsl(130, 100%, 50%);
+        text-shadow: 0 0 1px hsl(130, 100%, 50%),
+                        0 0 3px hsl(130, 100%, 30%),
+                        0 0 4px hsl(130, 100%, 10%);
+        opacity: 0;
+      }
+      @keyframes barCreationAnimation {
+        from {opacity: 0}
+        to {opacity: 1}
+      }
+    
+      div>table{
+        border: 2px solid black;
+     }
+      .kiran{
+        font-family: sans-serif;
+        background-color:#fff;
+      }
+      .cards-container{
+        display: flex;
+        justify-content: space-between;
+        flex-flow: row wrap;
+        gap: 10px;
+        margin: 20px;
+        padding:15px;
+        background-color:rgb(91, 100, 130);
+      }
+      .card{
+        background-color:#fff;
+        border-radius: 50px;
+        padding: 16px;
+        margin-bottom: 2%;
+        width: 49%;
+        overflow: hidden;
+      }
+
+      .mybtn{
+            margin-left:85%;
+            display:inline
+            border-radius:3px;
+            text-decoration:none;
+            font-family:sans-serif;
+            font-size:20px;
+            padding: 10px 20px;
+            background-color:#00ad25;
+            color:#fff;
+            transition-delay:.2s;
+            transition:.3s;
+            font-variant-caps:all-small-caps;
+            box-shadow:4px 3px 11px 0 #00ad25;
+            border-radius:10px;
+            }
+      .mybtn:hover{
+              color:#fff;
+              background-color:#009420;
+              box-shadow:4px 3px 11px 0 #005a13;
+              }
+                    
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    
+    {% block extra_head %}
+    {% endblock %}
+</head>
+<body>
+    {% block body %}
+
+    {% if messages %}
+      <div class="p-2">
+        {% for message in messages %}
+          <div class="text-center border-bottom">{{message}}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <div class="p-3 mb-3 bg-dark">
+      <div class="container d-flex justify-content-between">
+          {% if user.is_authenticated %}
+          <div><a class="text-light" href="{% url 'account_email' %}">Change E-mail</a></div>
+          <div><a class="text-light" href="{% url 'home' %}">Home</a></div>
+          <div><a class="text-light" href="{% url 'account_logout' %}">Sign Out</a></div>
+          <div><a class="text-light" href="{% url 'socialaccount_connections' %}">Settings</a></div>
+          {% else %}
+          <div><a class="text-light" href="{% url 'account_login' %}">Sign In</a></div>
+          <div><a class="text-light" href="{% url 'account_signup' %}">Sign Up</a></div>
+          {% endif %}
+      </div>
+    </div>
+    {% block content %}
+    {% endblock %}
+    {% endblock %}
+    {% block extra_body %}
+  
+
+    {% comment %} call the dowenload_csv function when the button is clicked {% endcomment %}
+    {% comment %} <button action="submit" class="mybtn" onclick="download_csv()">Download</button> {% endcomment %}
+    <div id="csv_download" style="display:none"></div>
+    <div style="margin-top:10px;margin-left:22px;width: 95vw;height: 50vh;border-radius:50px;background:black;;overflow: hidden;display: flex;justify-content: space-evenly;align-items: center;">
+      <div class="kar"></div>
+      <p style="margin-left:18%;padding-top:10px;font-size:40px;color:rgb(45, 227, 54);">{{output.serviceLocation.data.positive}} positive</p>
+    </div>
+    <div class="kar1">
+      <table style="width:95vw;margin-left:22px;margin-top:10px;">
+        <tr>
+          <th style="border: 2px solid black;text-align:center;">Emotion</th>
+          <th style="border: 2px solid black;text-align:center;">percentage</th>
+        </tr>
+        <tr>
+          <td style="border: 2px solid black;text-align:center;">joy</td>
+          <td style="border: 2px solid black;text-align:center;">{{output.serviceLocation.data.joy}}</td>
+        </tr>
+        <tr>
+          <td style="border: 2px solid black;text-align:center;">sad</td>
+          <td style="border: 2px solid black;text-align:center;">{{output.serviceLocation.data.sadness}}</td>
+        </tr>
+        <tr>
+          <td style="border: 2px solid black;text-align:center;">anger</td>
+          <td style="border: 2px solid black;text-align:center;">{{output.serviceLocation.data.anger}}</td>
+        </tr>
+        <tr>
+          <td style="border: 2px solid black;text-align:center;">surprise</td>
+          <td style="border: 2px solid black;text-align:center;"> {{output.serviceLocation.data.surprise}}</td>
+
+        </tr>
+        <tr>
+          <td style="border: 2px solid black;text-align:center;">love</td>
+          <td style="border: 2px solid black;text-align:center;">{{output.serviceLocation.data.love}}</td>
+        </tr>
+        <tr>
+          <td style="border: 2px solid black;text-align:center;">fear</td>
+          <td style="border: 2px solid black;text-align:center;">{{output.serviceLocation.data.fear}}</td>
+        </tr>
+   
+      </table>
+    </div>
+    <div class="kiran">
+        <div class="cards-container">
+            <div class="card card1">
+              <div id="chart-1"></div>
+            </div>
+            <div class="card card2">      
+              <div id="chart-2"></div>
+            </div>
+            <div class="card card3">
+              <div id="chart-3"></div>
+            </div>
+            <div class="card card4">
+              <div id="chart-4"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script>
+      // chart 1
+      var csv_download = document.getElementById("csv_download");
+      // make it as button 
+      csv_download.innerHTML = "<button class='mybtn' onclick='download_csv()'>Download</button>";
+      csv_download.style.display = "block";
+      csv_download.style.marginLeft = "22px";
+      csv_download.style.marginTop = "10px";
+      csv_download.style.width = "95vw";
+      csv_download.style.height = "50px";
+      csv_download.style.borderRadius = "50px";
+      csv_download.style.background = "black";
+      csv_download.style.color = "white";
+      csv_download.style.fontSize = "20px";
+      csv_download.style.display = "flex";
+      csv_download.style.justifyContent = "center";
+
+
+
+
+      // on click call download_csv url
+      csv_download.addEventListener("click", function() {
+        window.location.href = "csv_download?responseId=" + "{{output.responseId}}";
+      });
+
+      {% comment %} function dowenload_csv() {
+        window.location.href = "csv_download?responseId=" + "{{output.responseId}}";
+       } {% endcomment %}
+ 
+      
+      var xArray1 =["love","joy","anger","sad","surprise","fear"];
+      console.log({{output.x_value}});
+
+      {% comment %} for (var i = 0; i < {{output.x_value}}.length; i++) {
+        var x = {{output.x_value}}[i];
+        // convert to string
+        var y = x.toString();
+        xArray1.push(y);
+      } {% endcomment %}
+
+      
+
+
+      var yArray1 = [];
+      for (var i = 0; i < {{output.x_value}}.length; i++) {
+        var x = {{output.x_value}}[i];
+        // convert to integer
+        var y = parseInt(x);
+        yArray1.push(y);
+      }
+      console.log(yArray1);
+      console.log(yArray1);
+
+      var layout1 = {title:"sentiment analysis"};
+
+      var data1 = [{labels:xArray1, values:yArray1, type:"pie"}];
+
+      Plotly.newPlot("chart-1", data1, layout1);
+
+      // chart 2
+
+      var xArray2 =["love","joy","anger","sad","surprise","fear"];
+       
+      var yArray2 = [];
+      for (var i = 0; i < {{output.x_value}}.length; i++) {
+        var x = {{output.x_value}}[i];
+        // convert to integer
+        var y = parseInt(x);
+        yArray2.push(y);
+      }
+
+      var data2 = [{
+      x: xArray2,
+      y: yArray2,
+      type: "bar"  }];
+      var layout2 = {title:"sentiment analysis"};
+
+      Plotly.newPlot("chart-2", data2, layout2);
+
+
+      // chart 3
+      var xArray3 = [];
+      for (var i = 0; i < {{output.x_value}}.length; i++) {
+        var x = {{output.x_value}}[i];
+        // convert to integer
+        var y = parseInt(x);
+        xArray3.push(y);
+      }
+      var yArray3 = ["love","joy","anger","sad","surprise","fear"];
+
+      var data3 = [{
+      x: xArray3,
+      y: yArray3,
+      type: "bar",
+      orientation: "h"
+      }];
+
+      var layout3 = {title:"sentiment analysis"};
+
+      Plotly.newPlot("chart-3", data3, layout3);
+      // chart 4
+
+      var xArray4 = [50,60,70,80,90,100,110,120,130,140,150];
+      var yArray4 = [7,8,8,9,9,9,10,11,14,14,15];
+
+      // Define Data
+      var data4 = [{
+      x: xArray4,
+      y: yArray4,
+      mode:"markers",
+      type:"scatter"
+      }];
+
+      // Define Layout
+      var layout4 = {
+      xaxis: {range: [40, 160], title: "Square Meters"},
+      yaxis: {range: [5, 16], title: "Price in Millions"},
+      title: "sentiment analysis"
+      };
+
+      Plotly.newPlot("chart-4", data4, layout4);
+      
+    </script>
+    
+    </body>
+    <script>
+      const wrapper = document.querySelectorAll('.kar');
+      const barCount = 50; 
+      const percentDemo =50 * "{{output.serviceLocation.data.positive}}"/100;
+      console.log(percentDemo);
+      for (let index = 0; index < barCount; index++) {
+        const className = index < percentDemo ? 'selected-demo' : '';
+        wrapper[0].innerHTML += `<i style="--i: ${index};" class="${className}"></i>`;
+      }
+      wrapper[0].innerHTML += `<p class="selected percent-text text-demo">{{output.serviceLocation.data.positive}}</p>`
+
+
+
+   // on click 
+
+      
+    </script>
+    </html>
+    {% endblock %}

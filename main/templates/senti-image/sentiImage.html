@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+{% extends 'account/base.html' %}
+{% load static %}
+{% block title %}Dashboard{% endblock %}
+<html>
+{% block content %}
+{% if user.is_authenticated %}
+
+
+<head>
+    <title>SentiImage Blue Theme</title>
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+    <style>
+      body {
+        background-color: #87CEEB; /* Light blue color */
+      }
+      h1 {
+        color: #000080; /* Dark blue color */
+        text-align: center;
+        animation: zoomOut 2s;
+        animation-iteration-count: 2; /* Change this to 2 */
+      }
+      h3 {
+        color: #00001a;
+        /* light Black color */
+        text-align: center;
+        font-size: 10px;
+        overflow: hidden;
+        white-space: nowrap;
+        position: relative;
+      }
+      @keyframes zoomOut {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(0.5);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+    </style>
+
+    <h1>Senti   Image </h1>
+
+    <h3 id="typing"></h3>
+    <script>
+      var typed = new Typed("#typing", {
+        strings: ["Upload your image to get the sentiment analysis , You can upload multiple images at a time."],
+        typeSpeed: 50,
+      });
+    </script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* CSS for the upload form */
+        .drop-zone {
+            width: 100%;
+            min-height: 200px;
+            border: 2px dashed #ccc;
+            border-radius: 5px;
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap:wrap;
+        }
+
+        .drop-zone .drop-zone-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .drop-zone .drop-zone-content i {
+            font-size: 60px;
+            color: #ccc;
+            margin-bottom: 10px;
+        }
+
+        .drop-zone .drop-zone-content p {
+            font-size: 18px;
+            color: #ccc;
+            margin: 0;
+        }
+
+        #preview {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        #preview img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            margin: 10px;
+            border-radius: 10px;
+        }
+        #images{
+            display: none;
+        }
+        #upload{
+            margin-top: 10px;
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <div class="container">
+        <form method="post" enctype="multipart/form-data" id="image-upload-form">
+            {% csrf_token %}
+            <div class="drop-zone" id="drop-zone">
+                <div class="drop-zone-content">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Drop images here or click to upload</p>
+                </div>
+                <input type="file" id="images" name="images" multiple>
+            </div>
+            <div id="preview"></div>
+            <div class="form-group">
+                <input type="submit" value="Upload" id="upload" class="btn btn-primary">
+            </div>
+        </form>
+    </div>
+    <script>
+        // JavaScript for the upload form
+        var dropZone = document.getElementById("drop-zone");
+        var images = document.getElementById("images");
+
+        dropZone.addEventListener("click", function() {
+            images.click();
+        });
+
+        dropZone.addEventListener("dragover", function(e) {
+            e.preventDefault();
+            this.className = "drop-zone dragover";
+        });
+
+        dropZone.addEventListener("dragleave", function() {
+            this.className = "drop-zone";
+        });
+
+        images.addEventListener("change", function() {
+            preview(this.files);
+        });
+
+        dropZone.addEventListener("drop", function(e) {
+            e.preventDefault();
+            this.className = "drop-zone";
+            preview(e.dataTransfer.files);
+        });
+
+        function preview(files) {
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var imageType = /image.*/;
+                if (!file.type.match(imageType)) {
+                    continue;
+                }
+
+                var img = document.createElement("img");
+                img.file = file;
+                img.className=file.name;
+                var div = document.createElement("div");
+                div.className=file.name;
+                div.style.position="relative";
+                div.style.display="inline-block";
+                div.style.margin="10px";
+                div.style.width="150px";
+                div.style.height="150px";
+                div.style.overflow="hidden";
+                div.style.borderRadius="10px";
+                div.style.border="1px solid #ccc";
+                div.style.boxShadow="0 0 5px #ccc";
+                div.appendChild(img);
+                var span = document.createElement("span");
+                span.className=file.name;
+                span.style.position="absolute";
+                span.style.top="0";
+                span.style.right="0";
+                span.style.padding="5px";
+                span.style.background="red";
+                span.style.color="white";
+                span.style.cursor="pointer";
+                span.innerHTML="X";
+                span.addEventListener("click",function(){
+                    var name=this.className;
+                    var img=document.getElementsByClassName(name)[0];
+                    var div=document.getElementsByClassName(name)[1];
+                    img.remove();
+                    div.remove();
+                });
+                div.appendChild(span);
+                document.getElementById("preview").appendChild(div);
+                var reader = new FileReader();
+                reader.onload = (function(aImg) {
+                    return function(e) {
+                        aImg.src = e.target.result;
+                    };
+                })(img);
+                reader.readAsDataURL(file);
+                //show the name of the image bottom
+                var p = document.createElement("p");
+                p.innerHTML=file.name;
+                p.style.position="absolute";
+                p.style.bottom="0";
+                p.style.left="0";
+                p.style.padding="5px";
+                p.style.background="rgba(0,0,0,0.5)";
+                p.style.color="white";
+                p.style.width="100%";
+                p.style.textAlign="center";
+                p.style.margin="0";
+                div.appendChild(p);
+                
+
+                //show the delete on the top right corner of the image and name on the bottom left corner
+                
+
+            }
+        }
+
+        function hideLoading() {
+            var loading = document.getElementById("loading");
+            loading.style.display = "none";
+        }
+        function showLoading() {
+            var loading = document.getElementById("loading");
+            loading.style.display = "block";
+
+
+        }
+        var form = document.getElementById("image-upload-form");
+        form.addEventListener("submit", function(e) {
+            e.preventDefault();
+            showLoading();
+            var formData = new FormData(form);
+          
+         
+            var xhr = new XMLHttpRequest();
+
+            xhr.open("POST", "image_upload", true);
+            //redirct to loading page
+              
+       
+            xhr.onload = function() {
+                if (this.status == 200) {
+                    console.log("success");
+                    var json=JSON.parse(xhr.responseText)
+                    var json1=JSON.parse(xhr.response)
+                    console.log(json.responseId)
+                    console.log(json1)
+                  
+                    // Handle the response from the server
+                    var response = json.responseId
+                      
+                  
+                        // send the post request to the result page to show the result and request.body=response
+                        response = JSON.stringify(response)
+          
+                        console.log(response);
+                        window.location.href = "output?responseId=" + response;
+
+                    
+                    
+                }
+            };
+            xhr.send(formData);
+        });
+    
+    </script>
+    <div id=loading style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(0,0,0,0.5);z-index:9999;">
+        <img src="{% static 'images/loading.gif' %}" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:400px;height:400px;"> </div>
+
+</body>
+
+</html>
+{% comment %} {% else %}
+    
+    {% url 'login' as login_url %}
+    {% redirect_to login_url %}
+     {% endcomment %}
+{% endif %}
+{% endblock %}
+    
