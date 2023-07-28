@@ -3,7 +3,7 @@
 OBJECTIVE
 
 We Propose to built a gateway of sentiment analysis that capable of process
-almost every file type whether image,audios.. etc , Our Webapp can come to
+almost every file type whether image,audios, pdf,ppt,doc,Youtube comments, mails, Blogs, webssites,videos . etc , Our Webapp can come to
 conclusion for even large amount of data with sentiment report within seconds.
 
 The Objective of the Project is to solve problems in the space of Natural
