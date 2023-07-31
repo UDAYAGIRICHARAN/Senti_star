@@ -90,12 +90,8 @@ EXPERIMENTAL RESULTS
 
 
 
-       Confusion Matrix
 
-
-
-
-
+```
 
 Accuracy : 1274 / 1500
 =
@@ -107,7 +103,7 @@ Precision : 802 / (802 + 108)
 =
 88%
 
-
+```
 
 
 # Screenshots
@@ -120,11 +116,15 @@ Precision : 802 / (802 + 108)
 2)login page :
 
 
+![image](https://github.com/UDAYAGIRICHARAN/Senti_star/assets/67089878/ca761ecb-3490-4891-8eeb-b24ec53914cc)
 
+
+![image](https://github.com/UDAYAGIRICHARAN/Senti_star/assets/67089878/4deabe8c-fcab-48e9-98f7-66e1ac40c88a)
 
 
 3)History page :
 
+![image](https://github.com/UDAYAGIRICHARAN/Senti_star/assets/67089878/37cd03df-a0be-4653-8448-d15ffbd2bdd5)
 
 
 
@@ -138,20 +138,25 @@ Precision : 802 / (802 + 108)
 4)Senti files :
 
 
+![image](https://github.com/UDAYAGIRICHARAN/Senti_star/assets/67089878/fef1004e-8240-47ff-8da0-36240bd8fb7c)
 
 
+![image](https://github.com/UDAYAGIRICHARAN/Senti_star/assets/67089878/35816f81-71d1-4b0f-974f-b7f769693252)
 
 
-    5)Senti Type :
+5)Senti Type :
 
+![image](https://github.com/UDAYAGIRICHARAN/Senti_star/assets/67089878/19362306-ffa7-4584-b3e5-77525a696f4e)
 
 
 
  6)Senti Image :
 
 
+![image](https://github.com/UDAYAGIRICHARAN/Senti_star/assets/67089878/b32e6f07-9010-4521-b511-2bd8ba182c68)
 
 
+![image](https://github.com/UDAYAGIRICHARAN/Senti_star/assets/67089878/429890ff-2954-4ad8-9596-1a154b5b58cf)
 
 
 
@@ -163,13 +168,16 @@ Precision : 802 / (802 + 108)
 7)Senti Trans :
 
 
+![image](https://github.com/UDAYAGIRICHARAN/Senti_star/assets/67089878/d323ff6a-33ad-4838-b980-aa97dc72f78d)
 
 8)Senti Audio :
 
 
 
 
+![image](https://github.com/UDAYAGIRICHARAN/Senti_star/assets/67089878/e4411631-49e7-4928-be22-f56f74675216)
 
+![image](https://github.com/UDAYAGIRICHARAN/Senti_star/assets/67089878/c53ddbe3-e3da-408e-990b-4da3ba3e78ca)
 
 
 
@@ -190,11 +198,12 @@ Precision : 802 / (802 + 108)
 
 ![WhatsApp Image 2023-07-31 at 13 58 55](https://github.com/UDAYAGIRICHARAN/Senti_star/assets/67089878/363b6e0a-b9ad-4278-8c89-318a5bf06794)
 
-CONCLUSION
-
-In conclusion, sentiment analysis, also known as opinion mining, involves the examination of people's attitudes, emotions, and sentiments towards particular entities. This study focuses on the essential aspect of sentiment analysis, namely sentiment polarity categorization. Our research utilizes data from online product reviews on Amazon.com. We have developed a sentiment polarity categorization methodology and provided comprehensive explanations for each stage of the process. We have conducted experiments to evaluate the effectiveness of both sentence-level and review-level categorization.
 
 
+# Result page
+
+![image](https://github.com/UDAYAGIRICHARAN/Senti_star/assets/67089878/65ad5238-e9a0-45cc-acf6-e5395e073a8a)
+![image](https://github.com/UDAYAGIRICHARAN/Senti_star/assets/67089878/19d00085-1645-4a27-944e-b54d21148b20)
 
 
          
