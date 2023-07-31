@@ -69,9 +69,9 @@ EXPERIMENTAL RESULTS
 
 
 
-Accuracy : 1274 / 1500
-=
-85%
+# Accuracy : 1274 / 1500
+# =
+# 85%
 Recall : 802 / ( 802 + 118)
 =
 87%
