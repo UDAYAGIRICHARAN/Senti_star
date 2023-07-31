@@ -110,7 +110,8 @@ Precision : 802 / (802 + 108)
 
 
 
-Screenshots
+# Screenshots
+
 1)Home page :
 
 
@@ -297,11 +298,6 @@ REFERENCES
 
 
 
-
-
-CONCLUSION
-
-In conclusion, sentiment analysis, also known as opinion mining, involves the examination of people's attitudes, emotions, and sentiments towards particular entities. This study focuses on the essential aspect of sentiment analysis, namely sentiment polarity categorization. Our research utilizes data from online product reviews on Amazon.com. We have developed a sentiment polarity categorization methodology and provided comprehensive explanations for each stage of the process. We have conducted experiments to evaluate the effectiveness of both sentence-level and review-level categorization.
 
 
 
