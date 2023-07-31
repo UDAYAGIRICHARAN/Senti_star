@@ -69,16 +69,11 @@ EXPERIMENTAL RESULTS
 
 
 
-       Confusion Matrix
+```
 
-
-
-
-
-
-# Accuracy : 1274 / 1500
-# =
-# 85%
+Accuracy : 1274 / 1500
+=
+85%
 Recall : 802 / ( 802 + 118)
 =
 87%
@@ -87,9 +82,9 @@ Precision : 802 / (802 + 108)
 88%
 
 
+```
 
-
-Screenshots
+# Screenshots
 1)Home page :
 
 
