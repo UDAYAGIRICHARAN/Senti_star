@@ -2,9 +2,9 @@
 
 
 ## TechstacK: 
-frontend:React
-Backend: Django
-Database: Postgres
+### frontend:React
+### Backend: Django
+### Database: Postgres
 
 
 OBJECTIVE
