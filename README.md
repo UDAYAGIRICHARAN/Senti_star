@@ -65,27 +65,6 @@ Senti-Url: This Microservice handles the articles, Blogs,Urls and mail
 
 
 
-EXPERIMENTAL RESULTS
-
-
-
-```
-
-Accuracy : 1274 / 1500
-=
-85%
-Recall : 802 / ( 802 + 118)
-=
-87%
-Precision : 802 / (802 + 108)
-=
-88%
-
-
-```
-
-# Screenshots
-1)Home page :
 
 
 EXPERIMENTAL RESULTS
@@ -110,12 +89,12 @@ Precision : 802 / (802 + 108)
 
 # Screenshots
 
-1)Home page :
+## 1)Home page :
 ![WhatsApp Image 2023-07-31 at 13 58 53](https://github.com/UDAYAGIRICHARAN/Senti_star/assets/67089878/706f1dd0-ba8c-43a4-b813-1972a25b9c8e)
 
 
 
-2)login page :
+## 2)login page :
 
 
 ![image](https://github.com/UDAYAGIRICHARAN/Senti_star/assets/67089878/ca761ecb-3490-4891-8eeb-b24ec53914cc)
@@ -124,7 +103,7 @@ Precision : 802 / (802 + 108)
 ![image](https://github.com/UDAYAGIRICHARAN/Senti_star/assets/67089878/4deabe8c-fcab-48e9-98f7-66e1ac40c88a)
 
 
-3)History page :
+## 3)History page :
 
 ![image](https://github.com/UDAYAGIRICHARAN/Senti_star/assets/67089878/37cd03df-a0be-4653-8448-d15ffbd2bdd5)
 
@@ -137,7 +116,7 @@ Precision : 802 / (802 + 108)
 
 
 
-4)Senti files :
+## 4)Senti files :
 
 
 ![image](https://github.com/UDAYAGIRICHARAN/Senti_star/assets/67089878/fef1004e-8240-47ff-8da0-36240bd8fb7c)
@@ -146,13 +125,13 @@ Precision : 802 / (802 + 108)
 ![image](https://github.com/UDAYAGIRICHARAN/Senti_star/assets/67089878/35816f81-71d1-4b0f-974f-b7f769693252)
 
 
-5)Senti Type :
+## 5)Senti Type :
 
 ![image](https://github.com/UDAYAGIRICHARAN/Senti_star/assets/67089878/19362306-ffa7-4584-b3e5-77525a696f4e)
 
 
 
- 6)Senti Image :
+## 6)Senti Image :
 
 
 ![image](https://github.com/UDAYAGIRICHARAN/Senti_star/assets/67089878/b32e6f07-9010-4521-b511-2bd8ba182c68)
@@ -167,12 +146,12 @@ Precision : 802 / (802 + 108)
 
 
 
-7)Senti Trans :
+## 7)Senti Trans :
 
 
 ![image](https://github.com/UDAYAGIRICHARAN/Senti_star/assets/67089878/d323ff6a-33ad-4838-b980-aa97dc72f78d)
 
-8)Senti Audio :
+## 8)Senti Audio :
 
 
 
@@ -184,7 +163,7 @@ Precision : 802 / (802 + 108)
 
 
 
-9)Senti URL :
+## 9)Senti URL :
 
 
 
