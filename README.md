@@ -113,8 +113,7 @@ Precision : 802 / (802 + 108)
 # Screenshots
 
 1)Home page :
-
-
+![WhatsApp Image 2023-07-31 at 13 58 53](https://github.com/UDAYAGIRICHARAN/Senti_star/assets/67089878/706f1dd0-ba8c-43a4-b813-1972a25b9c8e)
 
 
 
@@ -179,12 +178,17 @@ Precision : 802 / (802 + 108)
 
 
 
+![WhatsApp Image 2023-07-31 at 13 58 53](https://github.com/UDAYAGIRICHARAN/Senti_star/assets/67089878/e1990c6b-6478-4491-89d7-dc265382f6b5)
+
+![WhatsApp Image 2023-07-31 at 13 58 54](https://github.com/UDAYAGIRICHARAN/Senti_star/assets/67089878/908ac8ab-1953-4afb-a3d0-7e85010a64f2)
 
 
+![WhatsApp Image 2023-07-31 at 13 58 54](https://github.com/UDAYAGIRICHARAN/Senti_star/assets/67089878/14aa2865-9c28-4ebe-af7d-c2cb0d100623)
 
 
+![WhatsApp Image 2023-07-31 at 13 58 55](https://github.com/UDAYAGIRICHARAN/Senti_star/assets/67089878/8f9c33e1-db62-4c6c-b620-92d5c813907d)
 
-
+![WhatsApp Image 2023-07-31 at 13 58 55](https://github.com/UDAYAGIRICHARAN/Senti_star/assets/67089878/363b6e0a-b9ad-4278-8c89-318a5bf06794)
 
 CONCLUSION
 
